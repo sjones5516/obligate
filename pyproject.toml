@@ -1,6 +1,6 @@
 [project]
 name = "obligate"
-version = "0.1.0"
+version = "1.0.0"
 description = "Utilities for enforcing contracts"
 license = "BSD-4-Clause"
 authors = [
