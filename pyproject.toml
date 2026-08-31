@@ -13,6 +13,9 @@ requires-python = ">=3.14"
 dependencies = [
 ]
 
+[project.urls]
+repository = "https://github.com/sjones5516/obligate"
+
 [tool.poetry]
 packages = [{include = "obligate", from = "src"}]
 
