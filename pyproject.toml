@@ -6,6 +6,7 @@ license = "BSD-4-Clause"
 authors = [
     {name = "Samuel Jones",email = "sjones.nova@gmail.com"}
 ]
+keywords = ["contracts", "runtime-validation", "precondition", "postcondition", "validation"]
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
