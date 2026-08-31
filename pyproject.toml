@@ -2,6 +2,7 @@
 name = "obligate"
 version = "0.1.0"
 description = ""
+license = "BSD-4-Clause"
 authors = [
     {name = "Samuel Jones",email = "sjones.nova@gmail.com"}
 ]
