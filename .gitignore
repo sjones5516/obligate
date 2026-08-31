@@ -41,7 +41,8 @@ ENV/runtime/
 .secrets
 
 # IDEs and editors
-.vscode/
+# fuck it leave it in
+# .vscode/
 .idea/
 *.swp
 *.swo
