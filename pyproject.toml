@@ -7,6 +7,7 @@ authors = [
     {name = "Samuel Jones",email = "sjones.nova@gmail.com"}
 ]
 keywords = ["contracts", "runtime-validation", "precondition", "postcondition", "validation"]
+dynamic = [ "classifiers" ]
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
@@ -14,6 +15,10 @@ dependencies = [
 
 [tool.poetry]
 packages = [{include = "obligate", from = "src"}]
+
+classifiers = [
+    "Topic :: Software Development :: Testing"
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
