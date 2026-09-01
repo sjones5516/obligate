@@ -1,6 +1,8 @@
 import functools
 from typing import Callable
 
+"""Set of static methods to validate pre and post-conditions based off functions with boolean return types."""
+
 
 class BoolValidator:
     @staticmethod
@@ -17,7 +19,7 @@ class BoolValidator:
         Args:
             condition: Returns ``True`` if the arguments are valid.
             error: Called as ``error(*args, **kwargs)`` when ``condition``
-                fails; must return an ``Exception`` instance to raise.
+            fails; must return an ``Exception`` instance to raise.
         """
 
         def decorator(func: Callable[P, R]) -> Callable[P, R]:
