@@ -46,7 +46,7 @@ class BoolValidator:
         Args:
             condition: Returns ``True`` if the result is valid.
             error: Called as ``error(result)`` when ``condition`` fails; must
-                return an ``Exception`` instance to raise.
+            return an ``Exception`` instance to raise.
         """
 
         def decorator(func: Callable[P, R]) -> Callable[P, R]:
