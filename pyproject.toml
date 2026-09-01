@@ -31,3 +31,6 @@ build-backend = "poetry.core.masonry.api"
 dev = [
     "pytest (>=9.1.1,<10.0.0)"
 ]
+docs = [
+    "sphinx (>=9.1.0,<10.0.0)"
+]
