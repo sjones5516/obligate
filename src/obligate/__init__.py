@@ -1,1 +1,1 @@
-from src.obligate.boolvalidator import BoolValidator
+from .boolvalidator import BoolValidator
