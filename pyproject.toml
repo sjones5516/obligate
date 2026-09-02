@@ -15,6 +15,7 @@ dependencies = [
 
 [project.urls]
 repository = "https://github.com/sjones5516/obligate"
+documentation = "https://obligate.readthedocs.io/en/latest/"
 
 [tool.poetry]
 packages = [{include = "obligate", from = "src"}]
