@@ -1,4 +1,4 @@
-from .validator import (
+from .validators import (
     Invariant,
     Postcondition,
     Precondition,

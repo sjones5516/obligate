@@ -1,7 +1,7 @@
 """Boolean combinators over contracts.
 
-Each combinator takes contracts of one type -- :class:`~obligate.validator.Precondition`,
-:class:`~obligate.validator.Postcondition` or :class:`~obligate.validator.Invariant`
+Each combinator takes contracts of one type -- :class:`~obligate.contracts.Precondition`,
+:class:`~obligate.contracts.Postcondition` or :class:`~obligate.contracts.Invariant`
 -- and returns a fresh contract of that *same* type, so results compose
 further (``all_of(a, any_of(b, c))``) and drop in anywhere a plain contract
 is expected.
@@ -15,7 +15,7 @@ delegates to its parts.
 
 from typing import Callable
 
-from .validator import Invariant, _Contract
+from .validators import Invariant, _Contract
 
 __all__ = ["all_of", "any_of", "none_of", "not_"]
 
@@ -48,9 +48,9 @@ def _rebuild(
 def all_of[T: _Contract](*contracts: T) -> T:
     """Require every contract to hold.
 
-    Works for :class:`~obligate.validator.Precondition`,
-    :class:`~obligate.validator.Postcondition` and
-    :class:`~obligate.validator.Invariant`. The result checks each contract's
+    Works for :class:`~obligate.contracts.Precondition`,
+    :class:`~obligate.contracts.Postcondition` and
+    :class:`~obligate.contracts.Invariant`. The result checks each contract's
     clauses in the order given and raises the first failure's own exception,
     so messages stay specific. Nested compositions are flattened, so
     ``all_of(all_of(a, b), c)`` behaves like ``all_of(a, b, c)``.
@@ -60,7 +60,7 @@ def all_of[T: _Contract](*contracts: T) -> T:
     parts -- the stricter setting wins.
 
     Examples:
-        >>> from obligate.validator import precondition, all_of
+        >>> from obligate.contracts import precondition, all_of
         >>> positive = precondition(
         ...     lambda n: n > 0, lambda n: ValueError(f"{n} is not positive")
         ... )
@@ -103,7 +103,7 @@ def any_of[T: _Contract](*contracts: T) -> T:
     caller sees why each option was rejected.
 
     Examples:
-        >>> from obligate.validator import postcondition, any_of
+        >>> from obligate.contracts import postcondition, any_of
         >>> is_none = postcondition(
         ...     lambda *a, response, **kw: response is None,
         ...     lambda *a, response, **kw: ValueError(f"{response!r} is not None"),
@@ -159,7 +159,7 @@ def not_[T: _Contract](contract: T, error_callback: Callable[..., Exception]) ->
     postcondition, or the instance for an invariant).
 
     Examples:
-        >>> from obligate.validator import precondition, not_
+        >>> from obligate.contracts import precondition, not_
         >>> is_blank = precondition(
         ...     lambda s: s.strip() == "", lambda s: ValueError("blank")
         ... )
@@ -193,7 +193,7 @@ def none_of[T: _Contract](*contracts: T, error: Callable[..., Exception]) -> T:
     callbacks. Equivalent to ``not_(any_of(*contracts), error)``.
 
     Examples:
-        >>> from obligate.validator import precondition, none_of
+        >>> from obligate.contracts import precondition, none_of
         >>> reserved = precondition(
         ...     lambda name: name in {"admin", "root"},
         ...     lambda name: ValueError("reserved"),
