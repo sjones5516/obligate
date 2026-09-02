@@ -1,6 +1,6 @@
 import pytest
 
-from obligate.validator import precondition
+from obligate.validator import postcondition, precondition
 
 
 def test_precondition_allows_valid_arguments():
@@ -36,3 +36,32 @@ def test_precondition_forwards_keyword_arguments():
 
     assert record(value=2) == 2
     assert calls == [2]
+
+
+def test_postcondition_passes_arguments_and_response_to_callbacks():
+    calls = []
+
+    @postcondition(
+        lambda value, *, response: calls.append((value, response))
+        or response == value + 1,
+        lambda value, *, response: ValueError((value, response)),
+    )
+    def increment(value):
+        return value + 1
+
+    assert increment(2) == 3
+    assert calls == [(2, 3)]
+
+
+def test_postcondition_raises_dynamic_error_with_response():
+    @postcondition(
+        lambda *, value, response: response >= value,
+        lambda *, value, response: ValueError(
+            f"Expected {response} to be at least {value}"
+        ),
+    )
+    def decrement(*, value):
+        return value - 1
+
+    with pytest.raises(ValueError, match="Expected 1 to be at least 2"):
+        decrement(value=2)
