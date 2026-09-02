@@ -13,10 +13,10 @@ pip install obligate
 ## Usage
 
 ```python
-import obligate
+from obligate.contracts import precondition
 
-@obligate.BoolValidator.pre(
-    lambda x : x >= 0,
+@precondition(
+    lambda x: x >= 0,
     lambda x: ValueError(f"Expected value greater than 0. Got {x}."),
 )
 def sqrt(x: float) -> float:
