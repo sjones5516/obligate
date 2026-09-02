@@ -12,4 +12,5 @@ Obligate is a Python library for enforcing contracts.
    :maxdepth: 2
    :caption: Contents:
 
-   usage
+   validators
+   combinators
