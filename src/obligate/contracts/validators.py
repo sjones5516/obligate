@@ -14,10 +14,10 @@ class _Contract:
     :class:`Precondition`, those plus ``response=`` for a
     :class:`Postcondition`, and the instance for an :class:`Invariant`.
 
-    ``a & b`` (equivalently :func:`~obligate.validator.all_of`) builds a new
+    ``a & b`` (equivalently :func:`~obligate.contracts.all_of`) builds a new
     contract of the same type whose clauses are the two clause lists
     concatenated, checked in order; the first failing clause raises its own
-    error. The combinators in :mod:`obligate.validator.combinators` build on
+    error. The combinators in :mod:`obligate.contracts.combinators` build on
     the same clause protocol.
     """
 
@@ -55,13 +55,13 @@ class Precondition[**P](_Contract):
     A :class:`Precondition` bundles a condition with the exception to raise
     when that condition fails. The same instance can decorate any number of
     functions, and several can be combined into one with ``&`` (or
-    :func:`~obligate.validator.all_of`); the combined precondition checks each part in order and
+    :func:`~obligate.contracts.all_of`); the combined precondition checks each part in order and
     raises the first failing part's *own* error, so messages stay specific.
 
     Build one with :func:`precondition` rather than instantiating directly.
 
     Examples:
-        >>> from obligate.validator import precondition
+        >>> from obligate.contracts import precondition
         >>> non_negative = precondition(
         ...     lambda value: value >= 0,
         ...     lambda value: ValueError(f"got {value}, want >= 0"),
@@ -130,10 +130,10 @@ def precondition[**P](
     values that failed validation.
 
     Returns a :class:`Precondition`: use it as a decorator, reuse it across
-    functions, and combine it with others via ``&`` or :func:`~obligate.validator.all_of`.
+    functions, and combine it with others via ``&`` or :func:`~obligate.contracts.all_of`.
 
     Examples:
-        >>> from obligate.validator import precondition
+        >>> from obligate.contracts import precondition
         >>> @precondition(
         ...     lambda value: value >= 0,
         ...     lambda value: ValueError(f"Expected a non-negative value, got {value}"),
@@ -162,14 +162,14 @@ class Postcondition[**P](_Contract):
     A :class:`Postcondition` bundles a condition with the exception to raise
     when it fails. Both callbacks receive the wrapped function's arguments
     plus its result as the ``response`` keyword argument. Reuse one instance
-    across functions, and combine several with ``&`` or :func:`~obligate.validator.all_of` --
+    across functions, and combine several with ``&`` or :func:`~obligate.contracts.all_of` --
     the combined postcondition checks each part in order and raises the
     first failure's own error.
 
     Build one with :func:`postcondition` rather than instantiating directly.
 
     Examples:
-        >>> from obligate.validator import postcondition
+        >>> from obligate.contracts import postcondition
         >>> positive = postcondition(
         ...     lambda *a, response, **kw: response > 0,
         ...     lambda *a, response, **kw: ValueError(f"{response} is not positive"),
@@ -225,10 +225,10 @@ def postcondition[**P, R](
     the returned value as the ``response`` keyword argument.
 
     Returns a :class:`Postcondition`: use it as a decorator, reuse it across
-    functions, and combine it with others via ``&`` or :func:`~obligate.validator.all_of`.
+    functions, and combine it with others via ``&`` or :func:`~obligate.contracts.all_of`.
 
     Examples:
-        >>> from obligate.validator import postcondition
+        >>> from obligate.contracts import postcondition
         >>> @postcondition(
         ...     lambda value, *, response: response >= value,
         ...     lambda value, *, response: ValueError(
@@ -270,7 +270,7 @@ class Invariant[C](_Contract):
     An :class:`Invariant` bundles a condition on an instance with the
     exception to raise when it fails, plus the ``rollback`` / ``deep_copy``
     policy. Apply one instance to any number of classes, and combine several
-    with ``&`` or :func:`~obligate.validator.all_of`; the combined invariant checks every clause
+    with ``&`` or :func:`~obligate.contracts.all_of`; the combined invariant checks every clause
     after each mutation and raises the first failure's own error. When
     combining, ``rollback`` and ``deep_copy`` are OR-ed -- the stricter
     setting wins.
@@ -278,7 +278,7 @@ class Invariant[C](_Contract):
     Build one with :func:`invariant` rather than instantiating directly.
 
     Examples:
-        >>> from obligate.validator import invariant
+        >>> from obligate.contracts import invariant
         >>> non_negative = invariant(
         ...     lambda self: self.balance >= 0,
         ...     lambda self: ValueError(f"balance {self.balance} < 0"),
@@ -464,7 +464,7 @@ def invariant[C](
     returned instance, for factories) rather than a function's return value.
 
     Returns an :class:`Invariant`: reuse it across classes and combine it
-    with others via ``&`` or :func:`~obligate.validator.all_of`.
+    with others via ``&`` or :func:`~obligate.contracts.all_of`.
 
     The invariant is first checked when ``__init__`` returns -- not on the
     individual assignments inside it -- so ``__init__`` may build the object
@@ -492,7 +492,7 @@ def invariant[C](
     (only relevant when ``rollback=True``; ignored otherwise).
 
     Examples:
-        >>> from obligate.validator import invariant
+        >>> from obligate.contracts import invariant
         >>> @invariant(
         ...     lambda self: self.balance >= 0,
         ...     lambda self: ValueError(f"Balance went negative: {self.balance}"),
