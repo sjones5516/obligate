@@ -23,6 +23,30 @@ def sqrt(x: float) -> float:
     return x ** 0.5
 ```
 
+## Development
+
+Install the development and documentation dependencies with Poetry:
+
+```bash
+poetry install --with dev,docs
+```
+
+Run the unit tests, including doctests:
+
+```bash
+poetry run pytest
+```
+
+Build the HTML documentation:
+
+```bash
+cd docs
+poetry run make html
+```
+
+The generated documentation is written to `docs/build/html/`. On Windows,
+run `poetry run make.bat html` from the `docs` directory instead.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
