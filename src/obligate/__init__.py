@@ -1,1 +1,1 @@
-from .boolvalidator import BoolValidator
+import validator
