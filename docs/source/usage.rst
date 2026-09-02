@@ -1,4 +1,5 @@
 Usage
 ======================
-.. autoclass:: obligate.BoolValidator
+.. automodule:: obligate.validator
     :members:
+    :imported-members:
