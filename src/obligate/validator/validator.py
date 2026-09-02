@@ -41,3 +41,58 @@ def precondition[**P, R](
         return wrapper
 
     return decorator
+
+
+def postcondition[**P, R](
+    condition_callback: Callable[..., bool], error_callback: Callable[..., Exception]
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
+    """Guard a function with a postcondition, raising a dynamically built exception.
+
+    Both callbacks receive the arguments passed to the wrapped function and
+    the returned value as the ``response`` keyword argument.
+
+    Examples:
+        >>> from obligate.validator import postcondition
+        >>> @postcondition(
+        ...     lambda value, *, response: response >= value,
+        ...     lambda value, *, response: ValueError(
+        ...         f"Expected {response} to be at least {value}"
+        ...     ),
+        ... )
+        ... def increment(value: int) -> int:
+        ...     return value + 1
+        >>> increment(9)
+        10
+        >>> increment(-1)
+        0
+
+        A callback can reject the returned value:
+
+        >>> @postcondition(
+        ...     lambda value, *, response: response >= 0,
+        ...     lambda value, *, response: ValueError(f"Got {response}"),
+        ... )
+        ... def invalid(value: int) -> int:
+        ...     return -value
+        >>> invalid(1)
+        Traceback (most recent call last):
+        ...
+        ValueError: Got -1
+
+    Args:
+        condition_callback: Returns ``True`` when the returned value is valid.
+        error_callback: Called with the original arguments and ``response``
+        when ``condition_callback`` returns ``False``.
+    """
+
+    def decorator(func: Callable[P, R]) -> Callable[P, R]:
+        @functools.wraps(func)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            response = func(*args, **kwargs)
+            if not condition_callback(*args, response=response, **kwargs):
+                raise error_callback(*args, response=response, **kwargs)
+            return response
+
+        return wrapper
+
+    return decorator

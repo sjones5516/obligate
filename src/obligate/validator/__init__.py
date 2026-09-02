@@ -1,1 +1,1 @@
-from .validator import precondition
+from .validator import postcondition, precondition
