@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 project = "Obligate"
 copyright = "2026, Samuel Jones"
 author = "Samuel Jones"
-release = "2.0.0"
+release = "2.0.2"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
