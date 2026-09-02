@@ -1,6 +1,7 @@
 # Obligate
 
 Obligate is a Python library for enforcing contracts.
+See the documentation at <https://obligate.readthedocs.io/en/latest/>
 
 ## Installation
 
