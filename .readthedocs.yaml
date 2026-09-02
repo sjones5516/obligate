@@ -1,0 +1,21 @@
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+version: 2
+
+# Set the OS, Python version, and other tools you might need
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3.14"
+  jobs:
+    # Install Poetry, then the "docs" dependency group from poetry.lock
+    post_create_environment:
+      - pip install poetry
+    post_install:
+      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry sync --no-root --only docs
+
+# Build the docs in docs/source/ with Sphinx
+sphinx:
+  configuration: docs/source/conf.py
+  fail_on_warning: false
