@@ -22,6 +22,7 @@ release = "2.0.0"
 
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.doctest",
 ]
 
 templates_path = ["_templates"]
